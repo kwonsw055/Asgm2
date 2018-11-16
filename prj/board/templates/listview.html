@@ -1,0 +1,39 @@
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>게시물 리스트</title>
+  </head>
+  <body>
+    {% if messages %}
+    <ul class="messages">
+      {% for msg in messages %}
+      <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="list">
+      <p>게시물 목록</p>
+      <ul>
+        {% for obj in object_list %}
+        <li><a href="{% url 'post_detail' pk=obj.id %}">{{obj.created_at.date}} : {{obj.title}}</a></li>
+        {% empty %}
+        <p>게시물이 없습니다.</p>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="paginator">
+      {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+      {% endif %}
+      <span class="current">
+        Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+      </span>
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">다음</a>
+      {% endif %}
+    </div>
+    <a href="{% url 'post_create' %}">글쓰기</a>
+  </body>
+</html>
